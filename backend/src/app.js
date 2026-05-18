@@ -27,12 +27,20 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(helmet());
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production'
     ? process.env.CORS_ORIGIN || 'http://localhost:5173'
     : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'],
-  credentials: true
-}));
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+// Respond to preflight requests
+app.options('*', cors(corsOptions));
 app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
