@@ -67,7 +67,7 @@ export const InventoryPage = () => {
           <h2 className="text-2xl font-bold text-white mb-4">Inventory Details</h2>
           <DataTable
             columns={[
-              { key: 'equipment_name', label: 'Equipment' },
+              { key: 'name', label: 'Equipment' },
               { key: 'opening_balance', label: 'Opening' },
               { key: 'current_balance', label: 'Current' },
               { key: 'unit', label: 'Unit' },
