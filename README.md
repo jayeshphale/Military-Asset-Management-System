@@ -180,6 +180,12 @@ npm run dev
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:5000
 
+## 🌐 Deployed Links
+
+- **Frontend (Vercel)**: https://military-asset-management-system-rose.vercel.app
+- **Backend API (Render)**: https://military-asset-management-system-6o0u.onrender.com
+
+
 ## 🔧 Environment Variables
 
 ### Backend (.env)
