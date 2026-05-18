@@ -13,6 +13,7 @@ import ExpendituresPage from './pages/ExpendituresPage.jsx';
 import InventoryPage from './pages/InventoryPage.jsx';
 import UsersPage from './pages/UsersPage.jsx';
 import AuditLogsPage from './pages/AuditLogsPage.jsx';
+import BasesPage from './pages/BasesPage.jsx';
 
 import './index.css';
 
@@ -37,6 +38,15 @@ function App() {
             element={
               <PrivateRoute allowedRoles={['Admin', 'Logistics Officer']}>
                 <PurchasesPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/bases"
+            element={
+              <PrivateRoute allowedRoles={['Admin']}>
+                <BasesPage />
               </PrivateRoute>
             }
           />
