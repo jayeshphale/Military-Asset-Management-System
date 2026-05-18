@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0d1117;
+  color: #c9d1d9;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4;
+}
+
+.btn-primary {
+  @apply px-4 py-2 bg-military-accent text-white rounded-lg hover:bg-military-lighter transition-colors;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors;
+}
+
+.btn-danger {
+  @apply px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors;
+}
+
+.input-field {
+  @apply w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-military-accent;
+}
+
+.card {
+  @apply bg-gray-900 border border-gray-700 rounded-lg p-6;
+}
+
+.table-row:hover {
+  @apply bg-gray-800;
+}

@@ -1,0 +1,39 @@
+{
+  "name": "military-asset-management",
+  "version": "1.0.0",
+  "description": "Military Asset Management System - Full Stack Application",
+  "private": true,
+  "author": "Your Team",
+  "license": "MIT",
+  "scripts": {
+    "setup": "bash setup.sh",
+    "backend:install": "cd backend && npm install",
+    "backend:dev": "cd backend && npm run dev",
+    "backend:start": "cd backend && npm start",
+    "backend:migrate": "cd backend && npm run migrate",
+    "backend:seed": "cd backend && npm run seed",
+    "frontend:install": "cd frontend && npm install",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "both:install": "npm run backend:install && npm run frontend:install",
+    "both:dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "docs": "echo 'See README.md, API_DOCUMENTATION.md, and DEPLOYMENT_GUIDE.md'"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "keywords": [
+    "military",
+    "asset",
+    "management",
+    "inventory",
+    "logistics",
+    "full-stack",
+    "react",
+    "express",
+    "postgresql"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

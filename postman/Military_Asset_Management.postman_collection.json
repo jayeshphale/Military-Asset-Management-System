@@ -1,0 +1,491 @@
+{
+  "info": {
+    "name": "Military Asset Management System API",
+    "description": "Complete API collection for the Military Asset Management System with authentication and all endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login - Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@military.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login as Admin user - Full system access"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('jwt_token', response.token);",
+                  "    console.log('JWT Token saved:', response.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login - Base Commander",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"commander@military.com\",\n  \"password\": \"Commander@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login as Base Commander - Assigned base operations"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('jwt_token', response.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login - Logistics Officer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"logistics@military.com\",\n  \"password\": \"Logistics@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login as Logistics Officer - Procurement and transfers"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('jwt_token', response.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dashboard/summary",
+              "host": ["{{base_url}}"],
+              "path": ["dashboard", "summary"]
+            },
+            "description": "Get dashboard metrics and recent transactions"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Management (Admin Only)",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            },
+            "description": "Retrieve all system users (Admin only)"
+          }
+        },
+        {
+          "name": "Create New User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Base Commander\",\n  \"email\": \"newcommander@military.com\",\n  \"password\": \"Commander@123\",\n  \"role\": \"Base Commander\",\n  \"assigned_base_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            },
+            "description": "Create a new user account (Admin only)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Base Management",
+      "item": [
+        {
+          "name": "Get All Bases",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bases",
+              "host": ["{{base_url}}"],
+              "path": ["bases"]
+            },
+            "description": "Retrieve all military bases"
+          }
+        },
+        {
+          "name": "Create New Base",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Delta Base\",\n  \"location\": \"Eastern Region\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bases",
+              "host": ["{{base_url}}"],
+              "path": ["bases"]
+            },
+            "description": "Create a new military base (Admin only)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Equipment Management",
+      "item": [
+        {
+          "name": "Get All Equipment Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/equipment",
+              "host": ["{{base_url}}"],
+              "path": ["equipment"]
+            },
+            "description": "Retrieve all equipment types"
+          }
+        },
+        {
+          "name": "Create Equipment Type",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Drones\",\n  \"category\": \"Technology\",\n  \"unit\": \"units\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/equipment",
+              "host": ["{{base_url}}"],
+              "path": ["equipment"]
+            },
+            "description": "Create a new equipment type (Admin only)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Purchase Management",
+      "item": [
+        {
+          "name": "Get All Purchases",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/purchases",
+              "host": ["{{base_url}}"],
+              "path": ["purchases"]
+            },
+            "description": "Retrieve all purchase records"
+          }
+        },
+        {
+          "name": "Create New Purchase",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"base_id\": 1,\n  \"equipment_type_id\": 1,\n  \"quantity\": 50,\n  \"purchase_date\": \"2026-05-15\",\n  \"remarks\": \"Monthly rifle replenishment\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/purchases",
+              "host": ["{{base_url}}"],
+              "path": ["purchases"]
+            },
+            "description": "Create a new purchase record"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transfer Management",
+      "item": [
+        {
+          "name": "Get All Transfers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/transfers",
+              "host": ["{{base_url}}"],
+              "path": ["transfers"]
+            },
+            "description": "Retrieve all transfer records"
+          }
+        },
+        {
+          "name": "Create New Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_base_id\": 1,\n  \"to_base_id\": 2,\n  \"equipment_type_id\": 1,\n  \"quantity\": 25,\n  \"transfer_date\": \"2026-05-16\",\n  \"remarks\": \"Reinforcement support for Bravo Base\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/transfers",
+              "host": ["{{base_url}}"],
+              "path": ["transfers"]
+            },
+            "description": "Create a new transfer request"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Assignment Management",
+      "item": [
+        {
+          "name": "Get All Assignments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/assignments",
+              "host": ["{{base_url}}"],
+              "path": ["assignments"]
+            },
+            "description": "Retrieve all assignment records"
+          }
+        },
+        {
+          "name": "Create New Assignment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"base_id\": 1,\n  \"equipment_type_id\": 1,\n  \"assigned_to\": \"Soldier Alpha-1\",\n  \"quantity\": 10,\n  \"assignment_date\": \"2026-05-16\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/assignments",
+              "host": ["{{base_url}}"],
+              "path": ["assignments"]
+            },
+            "description": "Create a new equipment assignment"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Expenditure Management",
+      "item": [
+        {
+          "name": "Get All Expenditures",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/expenditures",
+              "host": ["{{base_url}}"],
+              "path": ["expenditures"]
+            },
+            "description": "Retrieve all expenditure records"
+          }
+        },
+        {
+          "name": "Create New Expenditure",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"base_id\": 1,\n  \"equipment_type_id\": 1,\n  \"quantity\": 5,\n  \"reason\": \"Training Exercise\",\n  \"expenditure_date\": \"2026-05-16\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/expenditures",
+              "host": ["{{base_url}}"],
+              "path": ["expenditures"]
+            },
+            "description": "Create a new expenditure record"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory Management",
+      "item": [
+        {
+          "name": "Get Inventory",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/inventory",
+              "host": ["{{base_url}}"],
+              "path": ["inventory"]
+            },
+            "description": "Retrieve inventory levels by base"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Audit Logs (Admin Only)",
+      "item": [
+        {
+          "name": "Get Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/audit-logs",
+              "host": ["{{base_url}}"],
+              "path": ["audit-logs"]
+            },
+            "description": "Retrieve system audit logs (Admin only)"
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set base URL for different environments",
+          "pm.collectionVariables.set('base_url', 'http://localhost:5000/api');",
+          "",
+          "// For production, uncomment the line below:",
+          "// pm.collectionVariables.set('base_url', 'https://your-production-url.com/api');"
+        ]
+      }
+    }
+  ]
+}
