@@ -6,19 +6,32 @@ dotenv.config();
 
 const { Pool } = pg;
 
+const getPoolConfig = (database = 'postgres') => {
+  const config = {
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: database,
+  };
+  
+  // Add SSL configuration for NeonDB
+  if (process.env.DB_SSL === 'true') {
+    config.ssl = {
+      rejectUnauthorized: false,
+    };
+  }
+  
+  return config;
+};
+
 const initializeDatabase = async () => {
   let pool;
   try {
     console.log('Connecting to PostgreSQL...');
     
     // First connect to default database to create the target database
-    const tempPool = new Pool({
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      database: 'postgres', // Connect to default postgres database
-    });
+    const tempPool = new Pool(getPoolConfig('postgres'));
 
     // Create database if it doesn't exist
     await tempPool.query(`CREATE DATABASE ${process.env.DB_NAME} WITH OWNER = ${process.env.DB_USER}`);
@@ -26,13 +39,7 @@ const initializeDatabase = async () => {
     await tempPool.end();
 
     // Now connect to the created database
-    pool = new Pool({
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      database: process.env.DB_NAME,
-    });
+    pool = new Pool(getPoolConfig(process.env.DB_NAME));
 
     console.log('Creating database schema...');
     
@@ -51,13 +58,7 @@ const initializeDatabase = async () => {
     if (error.code === '42P04') {
       console.log('Database already exists, proceeding with schema creation...');
       // Database exists, try to create schema
-      pool = new Pool({
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        database: process.env.DB_NAME,
-      });
+      pool = new Pool(getPoolConfig(process.env.DB_NAME));
       
       const statements = schema.split(';').filter(stmt => stmt.trim());
       for (const statement of statements) {
